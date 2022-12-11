@@ -14,7 +14,7 @@ class JokeList extends Component {
 
         }
         this.handleClick = this.handleClick.bind(this);
-        this.changeVotes = this.changeVotes.bind(this);
+
     }
 
     async componentDidMount() {
