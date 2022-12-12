@@ -15,22 +15,29 @@ class JokeList extends Component {
         }
         this.handleClick = this.handleClick.bind(this);
 
+        this.seenJokes = new Set(this.state.jokes.map(j => j.joke));
+        console.log(this.seenJokes)
     }
 
     componentDidMount() {
-        if (this.state.jokes.length === 0) {
+        if (this.state.jokes.length === 0)
             this.getJokes();
+        if (this.state.jokes.length === 0)
             this.setState({ isLoading: true });
 
-        }
     }
 
     async getJokes() {
         let jokes = [];
         while (jokes.length < this.props.numJokesToGet) {
-            let res = await axios.get('https://icanhazdadjoke.com/', { headers: { Accept: "application/json" } })
-            let joke = { joke: res.data.joke, votes: 0, id: res.data.id }
-            jokes.push(joke)
+            let res = await axios.get('https://icanhazdadjoke.com/', { headers: { Accept: "application/json" } });
+            let newJoke = res.data.joke;
+            if (!this.seenJokes.has(newJoke)) {
+                jokes.push({ joke: newJoke, votes: 0, id: res.data.id })
+                this.seenJokes.add(newJoke)
+            } else {
+                console.log(newJoke)
+            }
         }
         this.setState(st => ({
 
