@@ -46,6 +46,17 @@
     font-size: 1.5em;
     margin: 4px;
     cursor: pointer;
+
+}
+
+.fa-arrow-up:hover {
+    transform: translate(0px, -5px);
+    transition: all 200ms ease-out;
+}
+
+.fa-arrow-down:hover {
+    transform: translate(0px, 5px);
+    transition: all 200ms ease-out;
 }
 
 .JokeSmiley {
@@ -58,4 +69,8 @@
         0 8px 8px rgba(0, 0, 0, 0.11),
         0 16px 16px rgba(0, 0, 0, 0.11),
         0 32px 32px rgba(0, 0, 0, 0.11);
+}
+
+.JokeSmiley:hover {
+    animation: shake-animation 4.72s ease infinite;
 }
