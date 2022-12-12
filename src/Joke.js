@@ -28,7 +28,7 @@ class Joke extends Component {
         return <div className='Joke'>
             <div className='JokeButtons'>
                 <i className='fas fa-arrow-up' onClick={this.props.upVote} />
-                <span className='JokeVotes' style={{ border: (this.props.votes <= 0 ? "3px solid red" : this.props.votes <= 5 ? "3px solid yellow" : this.props.votes <= 10 ? "3px solid green" : "3px solid blue") }}>{this.props.votes}</span>
+                <span className='JokeVotes' style={{ border: (this.props.votes <= 0 ? "3px solid red" : this.props.votes <= 5 ? "3px solid yellow" : this.props.votes <= 10 ? "3px solid green" : "3px solid slateblue") }}>{this.props.votes}</span>
                 <i className='fas fa-arrow-down' onClick={this.props.downVote} />
             </div>
             <section className='JokeText'>{this.props.jokedisplay}</section>

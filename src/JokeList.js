@@ -9,7 +9,7 @@ class JokeList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            jokes: [],
+            jokes: JSON.parse(window.localStorage.getItem("jokes")) || [],
             refreshToggle: true
 
         }
@@ -17,7 +17,13 @@ class JokeList extends Component {
 
     }
 
-    async componentDidMount() {
+    componentDidMount() {
+        if (this.state.jokes.length === 0) this.getJokes();
+
+
+    }
+
+    async getJokes() {
         let jokes = [];
         while (jokes.length < this.props.numJokesToGet) {
             let res = await axios.get('https://icanhazdadjoke.com/', { headers: { Accept: "application/json" } })
@@ -27,8 +33,9 @@ class JokeList extends Component {
         this.setState({
             jokes: jokes
         })
-
+        window.localStorage.setItem("jokes", JSON.stringify(jokes));
     }
+
     changeVotes(id, delta) {
         this.setState(st => ({
             jokes: st.jokes.map(j => j.id === id ? { ...j, votes: j.votes + delta } : j)
@@ -37,10 +44,11 @@ class JokeList extends Component {
     }
 
     handleClick() {
-        this.setState({ refreshToggle: !this.state.refreshToggle })
+        this.getJokes();
 
     }
     render() {
+
         let jokes = this.state.jokes.map(jk => <Joke jokedisplay={jk.joke} key={jk.id} downVote={() => this.changeVotes(jk.id, -1)} upVote={() => this.changeVotes(jk.id, +1)} id={jk.id} votes={jk.votes} />)
         return <div className='JokeList'>
             <div className='JokeList-sidebar'> <h1 className='JokeListTitle'><span>Dad</span> Jokes</h1>
