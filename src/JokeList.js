@@ -30,16 +30,18 @@ class JokeList extends Component {
             let joke = { joke: res.data.joke, votes: 0, id: res.data.id }
             jokes.push(joke)
         }
-        this.setState({
-            jokes: jokes
-        })
-        window.localStorage.setItem("jokes", JSON.stringify(jokes));
+        this.setState(st => ({
+            jokes: [...st.jokes, ...jokes]
+
+        }), () => window.localStorage.setItem("jokes", JSON.stringify(this.state.jokes)))
+
+
     }
 
     changeVotes(id, delta) {
         this.setState(st => ({
             jokes: st.jokes.map(j => j.id === id ? { ...j, votes: j.votes + delta } : j)
-        }));
+        }), () => window.localStorage.setItem("jokes", JSON.stringify(this.state.jokes)));
 
     }
 
