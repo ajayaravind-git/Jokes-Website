@@ -61,8 +61,8 @@ class JokeList extends Component {
 
     }
     render() {
-
-        let jokes = this.state.jokes.map(jk => <Joke jokedisplay={jk.joke} key={jk.id} downVote={() => this.changeVotes(jk.id, -1)} upVote={() => this.changeVotes(jk.id, +1)} id={jk.id} votes={jk.votes} />)
+        let jokes = this.state.jokes.sort((a, b) => b.votes - a.votes)
+        let sortedJokes = jokes.map(jk => <Joke jokedisplay={jk.joke} key={jk.id} downVote={() => this.changeVotes(jk.id, -1)} upVote={() => this.changeVotes(jk.id, +1)} id={jk.id} votes={jk.votes} />)
         let loadingAnimation = <div className='loadingAnimation'> <i className='far fa-8x fa-laugh fa-spin' /> <h1>Jokes Loading...</h1></div>
 
         return <div className='JokeList'>
@@ -73,7 +73,7 @@ class JokeList extends Component {
             </div>
 
             <div className={`JokeList-jokes ${this.state.isLoading ? "JokeList-jokes-loading" : ""}`}>
-                {this.state.isLoading ? loadingAnimation : jokes}
+                {this.state.isLoading ? loadingAnimation : sortedJokes}
             </div>
 
 
