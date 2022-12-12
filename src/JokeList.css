@@ -73,3 +73,16 @@
     border: 2px solid white;
     cursor: pointer;
 }
+
+.loadingAnimation {
+    text-align: center;
+    color: white;
+
+}
+
+
+.JokeList-jokes-loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

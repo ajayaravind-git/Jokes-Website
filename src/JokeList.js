@@ -10,7 +10,7 @@ class JokeList extends Component {
         super(props);
         this.state = {
             jokes: JSON.parse(window.localStorage.getItem("jokes")) || [],
-            refreshToggle: true
+            isLoading: false
 
         }
         this.handleClick = this.handleClick.bind(this);
@@ -18,9 +18,11 @@ class JokeList extends Component {
     }
 
     componentDidMount() {
-        if (this.state.jokes.length === 0) this.getJokes();
+        if (this.state.jokes.length === 0) {
+            this.getJokes();
+            this.setState({ isLoading: true });
 
-
+        }
     }
 
     async getJokes() {
@@ -31,6 +33,8 @@ class JokeList extends Component {
             jokes.push(joke)
         }
         this.setState(st => ({
+
+            isLoading: false,
             jokes: [...st.jokes, ...jokes]
 
         }), () => window.localStorage.setItem("jokes", JSON.stringify(this.state.jokes)))
@@ -46,12 +50,14 @@ class JokeList extends Component {
     }
 
     handleClick() {
-        this.getJokes();
+        this.setState({ isLoading: true }, this.getJokes)
 
     }
     render() {
 
         let jokes = this.state.jokes.map(jk => <Joke jokedisplay={jk.joke} key={jk.id} downVote={() => this.changeVotes(jk.id, -1)} upVote={() => this.changeVotes(jk.id, +1)} id={jk.id} votes={jk.votes} />)
+        let loadingAnimation = <div className='loadingAnimation'> <i className='far fa-8x fa-laugh fa-spin' /> <h1>Jokes Loading...</h1></div>
+
         return <div className='JokeList'>
             <div className='JokeList-sidebar'> <h1 className='JokeListTitle'><span>Dad</span> Jokes</h1>
                 <img className='JokeListImage' src='https://i.pinimg.com/originals/d5/9c/90/d59c9002030448f1193adf7d7600a52a.png' />
@@ -59,8 +65,8 @@ class JokeList extends Component {
 
             </div>
 
-            <div className='JokeList-jokes'>
-                {jokes}
+            <div className={`JokeList-jokes ${this.state.isLoading ? "JokeList-jokes-loading" : ""}`}>
+                {this.state.isLoading ? loadingAnimation : jokes}
             </div>
 
 
